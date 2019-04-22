@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "16307118641",
+    "firebase_url": "https://accelerometerreadings-1eeea.firebaseio.com",
+    "project_id": "accelerometerreadings-1eeea",
+    "storage_bucket": "accelerometerreadings-1eeea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16307118641:android:034c655eb4de5071",
+        "android_client_info": {
+          "package_name": "com.example.accelerometer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16307118641-gq0r9pvjdoosa56mbooohjkmpf5ke7eo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.accelerometer",
+            "certificate_hash": "13685885cc82bc845e41ed5b5226102f59484f7a"
+          }
+        },
+        {
+          "client_id": "16307118641-5hgu5utvp637uo3qoqqihurv9t2h7noo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmJwixQvsckyPmTPdwMij1r6TFy-tkavc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16307118641-5hgu5utvp637uo3qoqqihurv9t2h7noo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
