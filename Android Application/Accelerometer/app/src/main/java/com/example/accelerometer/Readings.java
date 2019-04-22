@@ -71,12 +71,23 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+
+        final float alpha = (float) 0.8;
+
+        gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
+        gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
+        gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
+
+        linear_acceleration[0] = event.values[0] - gravity[0];
+        linear_acceleration[1] = event.values[1] - gravity[1];
+        linear_acceleration[2] = event.values[2] - gravity[2];
+
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
 
-        xText.setText( String.valueOf(event.values[0]));
-        yText.setText(String.valueOf( event.values[1]));
-        zText.setText(String.valueOf( event.values[2]));
+        xText.setText( String.valueOf(linear_acceleration[0]));
+        yText.setText(String.valueOf( linear_acceleration[1]));
+        zText.setText(String.valueOf( linear_acceleration[2]));
         timestamp.setText(String.valueOf(ts));
 
         addDataTodb();
