@@ -8,6 +8,7 @@ import android.hardware.SensorManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,6 +28,8 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
     private Sensor mySensor;
     private SensorManager SM;
     public static int stopAcc =0;
+    public float[] gravity;
+    public float[] linear_acceleration;
 
 
 
@@ -89,6 +92,8 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
         yText.setText(String.valueOf( linear_acceleration[1]));
         zText.setText(String.valueOf( linear_acceleration[2]));
         timestamp.setText(String.valueOf(ts));
+
+        Log.i("xText", String.valueOf(linear_acceleration[0]));
 
         addDataTodb();
         if (stopAcc !=0)
