@@ -26,7 +26,13 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
     private TextView xText, yText, zText,timestamp;
     private Button stopBtn;
     private Sensor mySensor;
+    private Sensor magnetometer;
     private SensorManager SM;
+    public float[] mGravity;
+    public float[] mGeomagnetic;
+    public float orientation[] = new float[3];
+    public float pitch;
+    public float roll;
     public static int stopAcc =0;
     public float[] gravity=new float[3];
 
@@ -46,10 +52,15 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
 
         // Accelerometer Sensor
         mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        magnetometer = SM.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+
+
+
 
         // Register sensor Listener
         SM.registerListener( this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
 
+        SM.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
 
 
         // Assign TextView
@@ -100,6 +111,25 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
         Log.i("zText", String.valueOf(linear_acceleration[2]));
 
         addDataTodb();
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+        {
+            mGravity = event.values;
+
+        }
+        else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
+        {
+            mGeomagnetic = event.values;
+
+
+            if (isTiltDownward())
+            {
+                Log.d("test", "downwards");
+            }
+            else if (isTiltUpward())
+            {
+                Log.d("test", "upwards");
+            }
+        }
         if (stopAcc !=0)
         {
             SM.unregisterListener(this);
@@ -119,6 +149,124 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
 
     }
 
+    public boolean isTiltUpward()
+    {
+
+        if (mGravity != null && mGeomagnetic != null)
+        {
+            float R[] = new float[9];
+            float I[] = new float[9];
+
+            boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
+
+            if (success)
+            {
+                float orientation[] = new float[3];
+                SensorManager.getOrientation(R, orientation);
+
+
+                pitch = orientation[1];
+                roll = orientation[2];
+
+                gravity = mGravity.clone();
+
+                double norm_Of_g = Math.sqrt(gravity[0] * gravity[0] + gravity[1] * gravity[1] + gravity[2] * gravity[2]);
+
+                // Normalize the accelerometer vector
+                gravity[0] = (float) (gravity[0] / norm_Of_g);
+                gravity[1] = (float) (gravity[1] / norm_Of_g);
+                gravity[2] = (float) (gravity[2] / norm_Of_g);
+
+                //Checks if device is flat on ground or not
+                int inclination = (int) Math.round(Math.toDegrees(Math.acos(gravity[2])));
+
+
+                Float objPitch = new Float(pitch);
+                Float objZero = new Float(0.0);
+                Float objZeroPointTwo = new Float(0.2);
+                Float objZeroPointTwoNegative = new Float(-0.2);
+
+                int objPitchZeroResult = objPitch.compareTo(objZero);
+                int objPitchZeroPointTwoResult = objZeroPointTwo.compareTo(objPitch);
+                int objPitchZeroPointTwoNegativeResult = objPitch.compareTo(objZeroPointTwoNegative);
+
+                if (roll < 0 && ((objPitchZeroResult > 0 && objPitchZeroPointTwoResult > 0) || (objPitchZeroResult < 0 && objPitchZeroPointTwoNegativeResult > 0)) && (inclination > 30 && inclination < 40))
+                {
+                    Log.d("test","UPWARDS YA WALAAAA");
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isTiltDownward()
+    {
+
+        if (mGravity != null && mGeomagnetic != null)
+        {
+            float R[] = new float[9];
+            float I[] = new float[9];
+
+            boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
+
+            if (success)
+            {
+                float orientation[] = new float[3];
+                SensorManager.getOrientation(R, orientation);
+
+                pitch = orientation[1];
+                roll = orientation[2];
+
+                gravity = mGravity.clone();
+
+                double norm_Of_g = Math.sqrt(gravity[0] * gravity[0] + gravity[1] * gravity[1] + gravity[2] * gravity[2]);
+
+                // Normalize the accelerometer vector
+                gravity[0] = (float) (gravity[0] / norm_Of_g);
+                gravity[1] = (float) (gravity[1] / norm_Of_g);
+                gravity[2] = (float) (gravity[2] / norm_Of_g);
+
+                //Checks if device is flat on groud or not
+                int inclination = (int) Math.round(Math.toDegrees(Math.acos(gravity[2])));
+
+                Float objPitch = new Float(pitch);
+                Float objZero = new Float(0.0);
+                Float objZeroPointTwo = new Float(0.2);
+                Float objZeroPointTwoNegative = new Float(-0.2);
+
+                int objPitchZeroResult = objPitch.compareTo(objZero);
+                int objPitchZeroPointTwoResult = objZeroPointTwo.compareTo(objPitch);
+                int objPitchZeroPointTwoNegativeResult = objPitch.compareTo(objZeroPointTwoNegative);
+                if (inclination < 25 || inclination > 155)
+                {
+                    Log.d("test","flaaaaaaaaat");
+                }
+                else
+                {
+                    if (roll < 0 && ((objPitchZeroResult > 0 && objPitchZeroPointTwoResult > 0) || (objPitchZeroResult < 0 && objPitchZeroPointTwoNegativeResult > 0)) && (inclination > 140 && inclination < 170))
+                    {
+                        Log.d("test","DOWNWARDS YA WALAAAA");
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+
+
+            }
+        }
+
+        return false;
+    }
 
     public void addDataTodb() {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(UtilitiesHelper.ACCELEROMETER_TABLE);
