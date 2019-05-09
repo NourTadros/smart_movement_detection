@@ -28,8 +28,9 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
     private Sensor mySensor;
     private SensorManager SM;
     public static int stopAcc =0;
-    public float[] gravity;
-    public float[] linear_acceleration;
+    public float[] gravity=new float[3];
+
+    public float[] linear_acceleration = new float[3];
 
 
 
@@ -75,7 +76,10 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        final float alpha = (float) 0.8;
+        final float alpha = (float) 0.5; //alpha = t / (t + dT)
+        //τ = 1/(2 * π * fc)
+        //dT=0.2s according to SENSOR_DELAY_NORMAL
+        //0.5
 
         gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
         gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
@@ -93,7 +97,7 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
         zText.setText(String.valueOf( linear_acceleration[2]));
         timestamp.setText(String.valueOf(ts));
 
-        Log.i("xText", String.valueOf(linear_acceleration[0]));
+        Log.i("zText", String.valueOf(linear_acceleration[2]));
 
         addDataTodb();
         if (stopAcc !=0)
