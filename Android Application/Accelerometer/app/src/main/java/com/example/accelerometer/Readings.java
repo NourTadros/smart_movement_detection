@@ -35,6 +35,8 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
     public float roll;
     public static int stopAcc =0;
     public float[] gravity=new float[3];
+    public DatabaseReference mDatabase;
+    float force;
 
     public float[] linear_acceleration = new float[3];
 
@@ -44,6 +46,9 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_readings);
+
+
+
         // Create our Sensor Manager
         SM = (SensorManager)getSystemService(SENSOR_SERVICE);
 
@@ -51,14 +56,14 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
 
 
         // Accelerometer Sensor
-        mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mySensor = SM.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         magnetometer = SM.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
 
 
 
         // Register sensor Listener
-        SM.registerListener( this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
+        SM.registerListener( this, mySensor, SensorManager.SENSOR_DELAY_UI);
 
         SM.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -87,18 +92,29 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        final float alpha = (float) 0.5; //alpha = t / (t + dT)
+        final float alpha =  0.8f; //alpha = t / (t + dT)
         //τ = 1/(2 * π * fc)
         //dT=0.2s according to SENSOR_DELAY_NORMAL
         //0.5
-
+//Low and High pass filter
         gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
         gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
         gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
 
+//        Log.i("gravity[0]",String.valueOf(gravity[0]));
+//        Log.i("gravity[1]",String.valueOf(gravity[1]));
+//
+//        Log.i("gravity[2]",String.valueOf(gravity[2]));
+
+        if(gravity[2]>9.81){
+            Log.i("Keberna ya gravity", String.valueOf(gravity[2]));
+        }
+
+//high pass filter
         linear_acceleration[0] = event.values[0] - gravity[0];
         linear_acceleration[1] = event.values[1] - gravity[1];
         linear_acceleration[2] = event.values[2] - gravity[2];
+
 
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
@@ -108,9 +124,13 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
         zText.setText(String.valueOf( linear_acceleration[2]));
         timestamp.setText(String.valueOf(ts));
 
-        Log.i("zText", String.valueOf(linear_acceleration[2]));
 
-        addDataTodb();
+//        Log.i("zText", String.valueOf(linear_acceleration[2]));
+        if(linear_acceleration[2]>9.81){
+            Log.i("Keberna ya teta", String.valueOf(linear_acceleration[2]));
+        }
+
+
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
         {
             mGravity = event.values;
@@ -130,6 +150,8 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
                 Log.d("test", "upwards");
             }
         }
+
+         addDataTodb();
         if (stopAcc !=0)
         {
             SM.unregisterListener(this);
@@ -243,12 +265,12 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
                 int objPitchZeroResult = objPitch.compareTo(objZero);
                 int objPitchZeroPointTwoResult = objZeroPointTwo.compareTo(objPitch);
                 int objPitchZeroPointTwoNegativeResult = objPitch.compareTo(objZeroPointTwoNegative);
-                if (inclination < 25 || inclination > 155)
-                {
-                    Log.d("test","flaaaaaaaaat");
-                }
-                else
-                {
+//                if (inclination < 25 || inclination > 155)
+//                {
+////                    Log.d("test","flaaaaaaaaat");
+//                }
+//                else
+//                {
                     if (roll < 0 && ((objPitchZeroResult > 0 && objPitchZeroPointTwoResult > 0) || (objPitchZeroResult < 0 && objPitchZeroPointTwoNegativeResult > 0)) && (inclination > 140 && inclination < 170))
                     {
                         Log.d("test","DOWNWARDS YA WALAAAA");
@@ -263,13 +285,16 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
 
 
             }
-        }
+       // }
 
         return false;
     }
 
     public void addDataTodb() {
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(UtilitiesHelper.ACCELEROMETER_TABLE);
+        FirebaseApp.initializeApp(getApplicationContext());
+
+
+         mDatabase = FirebaseDatabase.getInstance().getReference(UtilitiesHelper.ACCELEROMETER_TABLE);
 
         String AccID = mDatabase.push().getKey();
 

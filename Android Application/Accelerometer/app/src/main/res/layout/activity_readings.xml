@@ -69,4 +69,6 @@ android:onClick="stop"
         android:layout_marginRight="163dp"
         android:layout_marginBottom="152dp"
         android:text="Stop" />
+
+
 </RelativeLayout>
