@@ -42,7 +42,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class UtilitiesHelper {
 
     public static String ACCELEROMETER_TABLE = "accelerometerReadings";
-
+    public static String PREDICTIONS_TABLE="predictions";
 
 
 

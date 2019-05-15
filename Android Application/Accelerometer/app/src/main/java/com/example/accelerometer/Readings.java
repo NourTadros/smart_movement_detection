@@ -351,16 +351,7 @@ if(x>-18.94 &&x<19.52 &&y>-18.6 && y<18.94 && z>-12.1 && z<19.4){
 
     }
 
-//    public void stop(View v)
-//    {
-//        stopAcc =1;
-//        Intent i = new Intent(Readings.this,MainActivity.class);
-//        startActivity(i);
-//        finish();
-//
-//
-//
-//    }
+
 
 
 }
