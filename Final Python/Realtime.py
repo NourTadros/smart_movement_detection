@@ -12,6 +12,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
+import codecs, json
 import glob
 from sklearn.decomposition import PCA
 from sklearn.feature_selection import SelectFromModel
@@ -48,6 +49,7 @@ config = {
 
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
+
 
 
 
@@ -134,7 +136,7 @@ X_train, X_test, y_train, y_test = train_test_split(COLUMNS, TYPES, test_size=0.
 
 
 
-clf=LogisticRegression( random_state=0,solver='lbfgs',multi_class='auto')
+clf=LogisticRegression( random_state=5,solver='lbfgs',multi_class='auto')
 
 clf.fit(X_train, y_train)
 
@@ -144,6 +146,8 @@ print (FallingType)
 
 y_pred=clf.predict(X_test)
 
+# prediction=db.push('/predictions',{'prediction':np.array(FallingType)})
+# print(prediction)
 
 # # #
 print("Accuracy of training: " ,accuracy_score(y_test, y_pred)*100)

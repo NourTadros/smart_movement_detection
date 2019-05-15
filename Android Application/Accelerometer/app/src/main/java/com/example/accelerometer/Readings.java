@@ -156,6 +156,7 @@ stopBtn.setOnClickListener(new View.OnClickListener() {
 //        }
 if(x>-18.94 &&x<19.52 &&y>-18.6 && y<18.94 && z>-12.1 && z<19.4){
     addDataTodb();
+    addPredTodb();
 }
 //else if(event.values[0]>-5.4 && event.values[0]<14.7 && event.values[1]>-18.4 && event.values[1]<13.1 && z>-12.1 && z<19.4){
 //    UtilitiesHelper.showToast(getApplicationContext(),"el7a2 FKL");
@@ -351,7 +352,36 @@ if(x>-18.94 &&x<19.52 &&y>-18.6 && y<18.94 && z>-12.1 && z<19.4){
 
     }
 
+    public void addPredTodb() {
+        FirebaseApp.initializeApp(getApplicationContext());
 
+
+        mDatabase = FirebaseDatabase.getInstance().getReference(UtilitiesHelper.PREDICTIONS_TABLE);
+
+        String PredID = mDatabase.push().getKey();
+
+
+        PredictionsModel predictionsModel = new PredictionsModel(
+                "FKL",
+                PredID
+        );
+
+        if (PredID != null) {
+            mDatabase.child(PredID).setValue(predictionsModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        UtilitiesHelper.showToast(getBaseContext(), "Successfully Added to the Firebase" );
+
+                    } else {
+                        UtilitiesHelper.showToast(getApplicationContext(), "Error occured, " + task.getException());
+                    }
+                }
+            });
+        }
+
+
+    }
 
 
 }

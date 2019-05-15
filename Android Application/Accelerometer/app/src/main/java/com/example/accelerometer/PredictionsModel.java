@@ -16,16 +16,16 @@ public class PredictionsModel {
         return predictions;
     }
 
-    public void setPredictions(String timestamp) {
+    public void setPredictions(String predictions) {
         this.predictions = predictions;
     }
 
 
     public String getId() {
-        return getId();
+        return id;
     }
 
-    public void setId(String acc_id) {
+    public void setId(String id) {
         this.id = id;
     }
 
