@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="181a39e9-ce98-404f-ae11-f2508244ed5b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/java/com/example/accelerometer/PredictionsModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/java/com/example/accelerometer/PredictionsModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/java/com/example/accelerometer/Readings.java" beforeDir="false" afterPath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/java/com/example/accelerometer/Readings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Final Python/Realtime.py" beforeDir="false" afterPath="$PROJECT_DIR$/Final Python/Realtime.py" afterDir="false" />
-    </list>
+    <list default="true" id="181a39e9-ce98-404f-ae11-f2508244ed5b" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +13,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Final Python/Realtime.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="150" lean-forward="true" selection-start-line="150" selection-end-line="150" />
+            <state relative-caret-position="34">
+              <caret line="131" lean-forward="true" selection-start-line="131" selection-end-line="131" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -138,6 +134,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24968314" />
@@ -161,8 +158,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Final Python/Realtime.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="150" lean-forward="true" selection-start-line="150" selection-end-line="150" />
+        <state relative-caret-position="34">
+          <caret line="131" lean-forward="true" selection-start-line="131" selection-end-line="131" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
