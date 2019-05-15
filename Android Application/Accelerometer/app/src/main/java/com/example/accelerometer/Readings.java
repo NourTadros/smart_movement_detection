@@ -19,6 +19,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Timer;
 
 
@@ -56,16 +58,16 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
 
 
         // Accelerometer Sensor
-        mySensor = SM.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-        magnetometer = SM.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+//        mySensor = SM.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+//        magnetometer = SM.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
 
 
 
         // Register sensor Listener
-        SM.registerListener( this, mySensor, SensorManager.SENSOR_DELAY_UI);
-
-        SM.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+//        SM.registerListener( this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
+//
+//        SM.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
 
 
         // Assign TextView
@@ -92,203 +94,228 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        final float alpha =  0.8f; //alpha = t / (t + dT)
+        final float alpha =  0.5f; //alpha = t / (t + dT)
         //τ = 1/(2 * π * fc)
         //dT=0.2s according to SENSOR_DELAY_NORMAL
         //0.5
+        float gravityAcc=9.81f;
+
+        //Low Pass Filter
+        gravityAcc=alpha*gravityAcc+(1-alpha)*event.values[2];
+        //High Pass Filter
+        double z=event.values[2]-gravityAcc;
+        double x=event.values[0];
+        double y=event.values[1];
+
 //Low and High pass filter
-        gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
-        gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
-        gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
+//        gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
+//        gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
+//        gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
 
-//        Log.i("gravity[0]",String.valueOf(gravity[0]));
-//        Log.i("gravity[1]",String.valueOf(gravity[1]));
-//
-//        Log.i("gravity[2]",String.valueOf(gravity[2]));
 
-        if(gravity[2]>9.81){
-            Log.i("Keberna ya gravity", String.valueOf(gravity[2]));
-        }
+
 
 //high pass filter
-        linear_acceleration[0] = event.values[0] - gravity[0];
-        linear_acceleration[1] = event.values[1] - gravity[1];
-        linear_acceleration[2] = event.values[2] - gravity[2];
+//        linear_acceleration[0] = event.values[0] - gravity[0];
+//        linear_acceleration[1] = event.values[1] - gravity[1];
+//        linear_acceleration[2] = event.values[2] - gravity[2];
 
 
-        Long tsLong = System.currentTimeMillis()/1000;
-        String ts = tsLong.toString();
+//        Long tsLong = System.currentTimeMillis()/1000;
+//        String ts = tsLong.toString();
+        String ts=new SimpleDateFormat("yy-MM-dd HH:mm:ss:SSS").format(new Date());
 
-        xText.setText( String.valueOf(linear_acceleration[0]));
-        yText.setText(String.valueOf( linear_acceleration[1]));
-        zText.setText(String.valueOf( linear_acceleration[2]));
+        xText.setText( String.valueOf(event.values[0]));
+        yText.setText(String.valueOf( event.values[1]));
+        zText.setText(String.valueOf( z));
         timestamp.setText(String.valueOf(ts));
 
-
-//        Log.i("zText", String.valueOf(linear_acceleration[2]));
-        if(linear_acceleration[2]>9.81){
-            Log.i("Keberna ya teta", String.valueOf(linear_acceleration[2]));
-        }
-
-
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-        {
-            mGravity = event.values;
-
-        }
-        else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
-        {
-            mGeomagnetic = event.values;
+stopBtn.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        onPause();
+    }
+});
 
 
-            if (isTiltDownward())
-            {
-                Log.d("test", "downwards");
-            }
-            else if (isTiltUpward())
-            {
-                Log.d("test", "upwards");
-            }
-        }
 
-         addDataTodb();
-        if (stopAcc !=0)
-        {
-            SM.unregisterListener(this);
 
-        }
+//         if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
+//        {
+//            mGeomagnetic = event.values;
+//
+//
+//            if (isTiltDownward())
+//            {
+//                Log.d("test", "downwards");
+//            }
+//            else if (isTiltUpward())
+//            {
+//                Log.d("test", "upwards");
+//            }
+//        }
+if(x>-18.94 &&x<19.52 &&y>-18.6 && y<18.94 && z>-12.1 && z<19.4){
+    addDataTodb();
+}
+//else if(event.values[0]>-5.4 && event.values[0]<14.7 && event.values[1]>-18.4 && event.values[1]<13.1 && z>-12.1 && z<19.4){
+//    UtilitiesHelper.showToast(getApplicationContext(),"el7a2 FKL");
+//    Log.i("Bnshof","el72 FKL");
+//    addDataTodb();
+//}
+//else if(event.values[0]>-11.8 && event.values[0]<19.52 && event.values[1]>-18.6 && event.values[1]<17.1 && z>-8.1 && z<19.2){
+//    UtilitiesHelper.showToast(getApplicationContext(),"el7a2 FOL");
+//    Log.i("Bnshof","el72 FOL");
+//    addDataTodb();
+//}
+//   else if(event.values[0]>-18.94 && event.values[0]<4.39 && event.values[1]>-10.87 && event.values[1]<11.10 && z>-5.45 && z<18.11){
+//    UtilitiesHelper.showToast(getApplicationContext(),"el7a2 SDL");
+//    Log.i("Bnshof","el72 SDL");
+//    addDataTodb();
+
+//}
+
+//        if (stopAcc !=0)
+//        {
+//            SM.unregisterListener(this);
+//
+//        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         SM.unregisterListener(this);
+        Intent i = new Intent(Readings.this,MainActivity.class);
+        startActivity(i);
+        finish();
     }
     @Override
     protected void onResume() {
         super.onResume();
-
+        SM.registerListener(this,
+                SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
 
     }
 
-    public boolean isTiltUpward()
-    {
-
-        if (mGravity != null && mGeomagnetic != null)
-        {
-            float R[] = new float[9];
-            float I[] = new float[9];
-
-            boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
-
-            if (success)
-            {
-                float orientation[] = new float[3];
-                SensorManager.getOrientation(R, orientation);
-
-
-                pitch = orientation[1];
-                roll = orientation[2];
-
-                gravity = mGravity.clone();
-
-                double norm_Of_g = Math.sqrt(gravity[0] * gravity[0] + gravity[1] * gravity[1] + gravity[2] * gravity[2]);
-
-                // Normalize the accelerometer vector
-                gravity[0] = (float) (gravity[0] / norm_Of_g);
-                gravity[1] = (float) (gravity[1] / norm_Of_g);
-                gravity[2] = (float) (gravity[2] / norm_Of_g);
-
-                //Checks if device is flat on ground or not
-                int inclination = (int) Math.round(Math.toDegrees(Math.acos(gravity[2])));
-
-
-                Float objPitch = new Float(pitch);
-                Float objZero = new Float(0.0);
-                Float objZeroPointTwo = new Float(0.2);
-                Float objZeroPointTwoNegative = new Float(-0.2);
-
-                int objPitchZeroResult = objPitch.compareTo(objZero);
-                int objPitchZeroPointTwoResult = objZeroPointTwo.compareTo(objPitch);
-                int objPitchZeroPointTwoNegativeResult = objPitch.compareTo(objZeroPointTwoNegative);
-
-                if (roll < 0 && ((objPitchZeroResult > 0 && objPitchZeroPointTwoResult > 0) || (objPitchZeroResult < 0 && objPitchZeroPointTwoNegativeResult > 0)) && (inclination > 30 && inclination < 40))
-                {
-                    Log.d("test","UPWARDS YA WALAAAA");
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    public boolean isTiltDownward()
-    {
-
-        if (mGravity != null && mGeomagnetic != null)
-        {
-            float R[] = new float[9];
-            float I[] = new float[9];
-
-            boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
-
-            if (success)
-            {
-                float orientation[] = new float[3];
-                SensorManager.getOrientation(R, orientation);
-
-                pitch = orientation[1];
-                roll = orientation[2];
-
-                gravity = mGravity.clone();
-
-                double norm_Of_g = Math.sqrt(gravity[0] * gravity[0] + gravity[1] * gravity[1] + gravity[2] * gravity[2]);
-
-                // Normalize the accelerometer vector
-                gravity[0] = (float) (gravity[0] / norm_Of_g);
-                gravity[1] = (float) (gravity[1] / norm_Of_g);
-                gravity[2] = (float) (gravity[2] / norm_Of_g);
-
-                //Checks if device is flat on groud or not
-                int inclination = (int) Math.round(Math.toDegrees(Math.acos(gravity[2])));
-
-                Float objPitch = new Float(pitch);
-                Float objZero = new Float(0.0);
-                Float objZeroPointTwo = new Float(0.2);
-                Float objZeroPointTwoNegative = new Float(-0.2);
-
-                int objPitchZeroResult = objPitch.compareTo(objZero);
-                int objPitchZeroPointTwoResult = objZeroPointTwo.compareTo(objPitch);
-                int objPitchZeroPointTwoNegativeResult = objPitch.compareTo(objZeroPointTwoNegative);
-//                if (inclination < 25 || inclination > 155)
+//    public boolean isTiltUpward()
+//    {
+//
+//        if (mGravity != null && mGeomagnetic != null)
+//        {
+//            float R[] = new float[9];
+//            float I[] = new float[9];
+//
+//            boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
+//
+//            if (success)
+//            {
+//                float orientation[] = new float[3];
+//                SensorManager.getOrientation(R, orientation);
+//
+//
+//                pitch = orientation[1];
+//                roll = orientation[2];
+//
+//                gravity = mGravity.clone();
+//
+//                double norm_Of_g = Math.sqrt(gravity[0] * gravity[0] + gravity[1] * gravity[1] + gravity[2] * gravity[2]);
+//
+//                // Normalize the accelerometer vector
+//                gravity[0] = (float) (gravity[0] / norm_Of_g);
+//                gravity[1] = (float) (gravity[1] / norm_Of_g);
+//                gravity[2] = (float) (gravity[2] / norm_Of_g);
+//
+//                //Checks if device is flat on ground or not
+//                int inclination = (int) Math.round(Math.toDegrees(Math.acos(gravity[2])));
+//
+//
+//                Float objPitch = new Float(pitch);
+//                Float objZero = new Float(0.0);
+//                Float objZeroPointTwo = new Float(0.2);
+//                Float objZeroPointTwoNegative = new Float(-0.2);
+//
+//                int objPitchZeroResult = objPitch.compareTo(objZero);
+//                int objPitchZeroPointTwoResult = objZeroPointTwo.compareTo(objPitch);
+//                int objPitchZeroPointTwoNegativeResult = objPitch.compareTo(objZeroPointTwoNegative);
+//
+//                if (roll < 0 && ((objPitchZeroResult > 0 && objPitchZeroPointTwoResult > 0) || (objPitchZeroResult < 0 && objPitchZeroPointTwoNegativeResult > 0)) && (inclination > 30 && inclination < 40))
 //                {
-////                    Log.d("test","flaaaaaaaaat");
+//                    Log.d("test","UPWARDS YA WALAAAA");
+//                    return true;
 //                }
 //                else
 //                {
-                    if (roll < 0 && ((objPitchZeroResult > 0 && objPitchZeroPointTwoResult > 0) || (objPitchZeroResult < 0 && objPitchZeroPointTwoNegativeResult > 0)) && (inclination > 140 && inclination < 170))
-                    {
-                        Log.d("test","DOWNWARDS YA WALAAAA");
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-
-
-
-            }
-       // }
-
-        return false;
-    }
+//                    return false;
+//                }
+//            }
+//        }
+//
+//        return false;
+//    }
+//
+//    public boolean isTiltDownward()
+//    {
+//
+//        if (mGravity != null && mGeomagnetic != null)
+//        {
+//            float R[] = new float[9];
+//            float I[] = new float[9];
+//
+//            boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
+//
+//            if (success)
+//            {
+//                float orientation[] = new float[3];
+//                SensorManager.getOrientation(R, orientation);
+//
+//                pitch = orientation[1];
+//                roll = orientation[2];
+//
+//                gravity = mGravity.clone();
+//
+//                double norm_Of_g = Math.sqrt(gravity[0] * gravity[0] + gravity[1] * gravity[1] + gravity[2] * gravity[2]);
+//
+//                // Normalize the accelerometer vector
+//                gravity[0] = (float) (gravity[0] / norm_Of_g);
+//                gravity[1] = (float) (gravity[1] / norm_Of_g);
+//                gravity[2] = (float) (gravity[2] / norm_Of_g);
+//
+//                //Checks if device is flat on groud or not
+//                int inclination = (int) Math.round(Math.toDegrees(Math.acos(gravity[2])));
+//
+//                Float objPitch = new Float(pitch);
+//                Float objZero = new Float(0.0);
+//                Float objZeroPointTwo = new Float(0.2);
+//                Float objZeroPointTwoNegative = new Float(-0.2);
+//
+//                int objPitchZeroResult = objPitch.compareTo(objZero);
+//                int objPitchZeroPointTwoResult = objZeroPointTwo.compareTo(objPitch);
+//                int objPitchZeroPointTwoNegativeResult = objPitch.compareTo(objZeroPointTwoNegative);
+////                if (inclination < 25 || inclination > 155)
+////                {
+//////                    Log.d("test","flaaaaaaaaat");
+////                }
+////                else
+////                {
+//                    if (roll < 0 && ((objPitchZeroResult > 0 && objPitchZeroPointTwoResult > 0) || (objPitchZeroResult < 0 && objPitchZeroPointTwoNegativeResult > 0)) && (inclination > 140 && inclination < 170))
+//                    {
+//                        Log.d("test","DOWNWARDS YA WALAAAA");
+//                        return true;
+//                    }
+//                    else
+//                    {
+//                        return false;
+//                    }
+//                }
+//
+//
+//
+//            }
+//       // }
+//
+//        return false;
+//    }
 
     public void addDataTodb() {
         FirebaseApp.initializeApp(getApplicationContext());
@@ -324,16 +351,16 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
 
     }
 
-    public void stop(View v)
-    {
-        stopAcc =1;
-        Intent i = new Intent(Readings.this,MainActivity.class);
-        startActivity(i);
-        finish();
-
-
-
-    }
+//    public void stop(View v)
+//    {
+//        stopAcc =1;
+//        Intent i = new Intent(Readings.this,MainActivity.class);
+//        startActivity(i);
+//        finish();
+//
+//
+//
+//    }
 
 
 }
