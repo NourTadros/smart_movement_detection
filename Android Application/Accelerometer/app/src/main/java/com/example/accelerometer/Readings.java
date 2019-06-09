@@ -80,7 +80,7 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
 
 
 
-
+        //Initializing Firebase
         FirebaseApp.initializeApp(this);
 
 
@@ -98,12 +98,15 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
         //τ = 1/(2 * π * fc)
         //dT=0.2s according to SENSOR_DELAY_NORMAL
         //0.5
-        float gravityAcc=9.81f;
-
+        float gravityAcc=9.81f; //normal acceleration of gravity due to free fall
+//3ashan n7seb el acceleration, el force bt3 gravity lazm yb2a eliminated
         //Low Pass Filter
-        gravityAcc=alpha*gravityAcc+(1-alpha)*event.values[2];
+        gravityAcc=alpha*gravityAcc+(1-alpha)*event.values[2]; //bt pass low frequencies w bt2alel el amplitude b frequencies a3la men l threshold
         //High Pass Filter
-        double z=event.values[2]-gravityAcc;
+        double z=event.values[2]-gravityAcc; // bnpass high frequencies 3shan n reduce l amplitud b frequencies a2al men el threshold
+        //bnsheel el gravity men el Z 3asha ndman real acceleration
+
+        //assigning el event values bl corresspoding variable leeha
         double x=event.values[0];
         double y=event.values[1];
 
@@ -123,17 +126,18 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
 
 //        Long tsLong = System.currentTimeMillis()/1000;
 //        String ts = tsLong.toString();
-        String ts=new SimpleDateFormat("yy-MM-dd HH:mm:ss:SSS").format(new Date());
+        String ts=new SimpleDateFormat("yy-MM-dd HH:mm:ss:SSS").format(new Date()); // el date yb2a day month year time
 
+        //assigning el textviews ll x w el y w el z ely gebnahom b3d el filters
         xText.setText( String.valueOf(event.values[0]));
         yText.setText(String.valueOf( event.values[1]));
         zText.setText(String.valueOf( z));
         timestamp.setText(String.valueOf(ts));
-
+//3ashan n stop l accelerometer sensnor
 stopBtn.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-        onPause();
+        onPause(); // unregister listener
     }
 });
 
@@ -154,9 +158,12 @@ stopBtn.setOnClickListener(new View.OnClickListener() {
 //                Log.d("test", "upwards");
 //            }
 //        }
+
+        //Windowing based on Thresholding
+        //khadna el readings bt3t range wa23at fl x w el y w el z 3ashan y7ot fl db el w23at bs msh kol haga
 if(x>-18.94 &&x<19.52 &&y>-18.6 && y<18.94 && z>-12.1 && z<19.4){
-    addDataTodb();
-    addPredTodb();
+    addDataTodb();//function bt7ot fl database
+//    addPredTodb();
 }
 //else if(event.values[0]>-5.4 && event.values[0]<14.7 && event.values[1]>-18.4 && event.values[1]<13.1 && z>-12.1 && z<19.4){
 //    UtilitiesHelper.showToast(getApplicationContext(),"el7a2 FKL");
@@ -185,17 +192,18 @@ if(x>-18.94 &&x<19.52 &&y>-18.6 && y<18.94 && z>-12.1 && z<19.4){
     @Override
     protected void onPause() {
         super.onPause();
-        SM.unregisterListener(this);
-        Intent i = new Intent(Readings.this,MainActivity.class);
+        SM.unregisterListener(this); //ywa2af el accelerometer
+        Intent i = new Intent(Readings.this,MainActivity.class);//btwadeena main activity b3d ma dosna stop
         startActivity(i);
-        finish();
+        finish();//3ashan b3d ma el activity teroo7 ll main activity, t2fel
     }
     @Override
     protected void onResume() {
         super.onResume();
         SM.registerListener(this,
                 SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                SensorManager.SENSOR_DELAY_NORMAL);
+                SensorManager.SENSOR_DELAY_NORMAL);//ebn3mel register listener w n2ool eno accelerometer w bnkhtar delay normal
+
 
     }
 
@@ -319,14 +327,16 @@ if(x>-18.94 &&x<19.52 &&y>-18.6 && y<18.94 && z>-12.1 && z<19.4){
 //    }
 
     public void addDataTodb() {
+
+        //firebase
         FirebaseApp.initializeApp(getApplicationContext());
 
-
+        //bngeeb instance men el table ely 3mleeno fl utilities helper
          mDatabase = FirebaseDatabase.getInstance().getReference(UtilitiesHelper.ACCELEROMETER_TABLE);
-
+        //bngeeb unique key ely hay7oto fl db
         String AccID = mDatabase.push().getKey();
 
-
+        //bn3mel object ml class ely esmo accelerometer model w n7ot gowah el data ely gbnaha mn el textviews
         AccelerometerModel accelerometerModel = new AccelerometerModel(
                 timestamp.getText().toString(),
                 xText.getText().toString(),
@@ -339,7 +349,7 @@ if(x>-18.94 &&x<19.52 &&y>-18.6 && y<18.94 && z>-12.1 && z<19.4){
             mDatabase.child(AccID).setValue(accelerometerModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
+                    if (task.isSuccessful()) { //3mlen listener 3ashan lw el data et7atet sah fl db
                         UtilitiesHelper.showToast(getBaseContext(), "Successfully Added to the Firebase" );
 
                     } else {
@@ -352,7 +362,7 @@ if(x>-18.94 &&x<19.52 &&y>-18.6 && y<18.94 && z>-12.1 && z<19.4){
 
     }
 
-    public void addPredTodb() {
+    public void addPredTodb() { //3ashan n7ot el predections fl database
         FirebaseApp.initializeApp(getApplicationContext());
 
 

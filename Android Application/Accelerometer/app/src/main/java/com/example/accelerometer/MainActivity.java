@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v) { //3ashan neroo7 ll readings activity
         if (reading.getText().equals("Start")){
             // Register Listener
             //mSensorManager.registerListener(listener = new MySensorListener(count), myAcc , SensorManager.SENSOR_DELAY_UI);

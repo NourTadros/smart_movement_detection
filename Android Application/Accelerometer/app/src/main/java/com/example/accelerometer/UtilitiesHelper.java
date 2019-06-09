@@ -40,14 +40,14 @@ import static android.content.Context.MODE_PRIVATE;
 
 
 public class UtilitiesHelper {
-
+//3ashan y2alel repetition fl code, asami l tables bs
     public static String ACCELEROMETER_TABLE = "accelerometerReadings";
     public static String PREDICTIONS_TABLE="predictions";
 
 
 
 
-
+//function l toast 3ashan anadeeha 3alatool
     public static void showToast(Context c, String message){
         Toast.makeText(c, message, Toast.LENGTH_LONG).show();
     }

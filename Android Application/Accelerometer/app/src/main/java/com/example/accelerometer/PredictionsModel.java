@@ -1,6 +1,6 @@
 package com.example.accelerometer;
 
-public class PredictionsModel {
+public class PredictionsModel {//data added to prediction table in firebase
     private String predictions, id;
 
     public PredictionsModel(){

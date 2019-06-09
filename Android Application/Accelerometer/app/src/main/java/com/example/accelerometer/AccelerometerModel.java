@@ -1,7 +1,7 @@
 package com.example.accelerometer;
 
 public class AccelerometerModel {
-    private String timestamp,acc_x,acc_y,acc_z, acc_id;
+    private String timestamp,acc_x,acc_y,acc_z, acc_id;//data will be added to table in firebase
 
     public AccelerometerModel(){
 
