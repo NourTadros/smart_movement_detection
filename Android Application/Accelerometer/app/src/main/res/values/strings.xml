@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Accelerometer</string>
+    <string name="booki">Lift the fall</string>
+    <string name="welcome_back">Welcome </string>
+    <string name="read_it_together">Read it together</string>
+    <string name="skip">Go to Accelerometer</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="forget_password">Forget Password.?</string>
 </resources>

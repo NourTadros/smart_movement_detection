@@ -49,7 +49,8 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_readings);
 
-
+        //Initializing Firebase
+        FirebaseApp.initializeApp(this);
 
         // Create our Sensor Manager
         SM = (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -80,8 +81,7 @@ public class Readings extends AppCompatActivity implements SensorEventListener{
 
 
 
-        //Initializing Firebase
-        FirebaseApp.initializeApp(this);
+
 
 
     }

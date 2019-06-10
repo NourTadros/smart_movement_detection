@@ -2,16 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="181a39e9-ce98-404f-ae11-f2508244ed5b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/java/com/example/accelerometer/DoctorProfile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/java/com/example/accelerometer/LoginActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/res/drawable/button_drawable.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/res/layout/activity_doctor_profile.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/res/layout/activity_login.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Android Application/Accelerometer/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Android Application/Accelerometer/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/java/com/example/accelerometer/AccelerometerModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/java/com/example/accelerometer/AccelerometerModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android Application/Accelerometer/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Android Application/Accelerometer/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/java/com/example/accelerometer/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/java/com/example/accelerometer/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/java/com/example/accelerometer/MySensorListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/java/com/example/accelerometer/PredictionsModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/java/com/example/accelerometer/PredictionsModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/java/com/example/accelerometer/Readings.java" beforeDir="false" afterPath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/java/com/example/accelerometer/Readings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/java/com/example/accelerometer/UtilitiesHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/java/com/example/accelerometer/UtilitiesHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Android Application/Accelerometer/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Android Application/Accelerometer/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Final Python/Realtime.py" beforeDir="false" afterPath="$PROJECT_DIR$/Final Python/Realtime.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Android Application/Accelerometer/app/src/main/res/values/styles.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,8 +27,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Final Python/Realtime.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="179" column="27" lean-forward="true" selection-start-line="179" selection-start-column="27" selection-end-line="179" selection-end-column="27" />
+            <state relative-caret-position="389">
+              <caret line="179" column="27" selection-start-line="179" selection-start-column="27" selection-end-line="179" selection-end-column="27" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -50,7 +53,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="39" />
     <option name="y" value="23" />
     <option name="width" value="1641" />
@@ -61,7 +64,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -78,6 +80,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -144,7 +147,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25285172" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -180,8 +184,8 @@
     <entry file="file://$PROJECT_DIR$/Networks/DecryptionFile.html" />
     <entry file="file://$PROJECT_DIR$/Final Python/Realtime.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="179" column="27" lean-forward="true" selection-start-line="179" selection-start-column="27" selection-end-line="179" selection-end-column="27" />
+        <state relative-caret-position="389">
+          <caret line="179" column="27" selection-start-line="179" selection-start-column="27" selection-end-line="179" selection-end-column="27" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>

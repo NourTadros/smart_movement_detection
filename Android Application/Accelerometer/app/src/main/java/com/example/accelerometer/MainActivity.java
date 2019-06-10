@@ -29,6 +29,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        Intent i=new Intent(MainActivity.this,LoginActivity.class);
+//        startActivity(i);
+//        finish();
+
         mSensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         List<Sensor> sensorList = mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER);
         myAcc = sensorList.get(0);
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         label = (TextView) findViewById(R.id.number_label);
         reading = (Button) findViewById(R.id.reading_button);
         reading.setOnClickListener(this);
+
 
     }
 
