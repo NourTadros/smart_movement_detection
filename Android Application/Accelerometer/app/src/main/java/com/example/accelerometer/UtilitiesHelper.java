@@ -52,6 +52,24 @@ public class UtilitiesHelper {
         Toast.makeText(c, message, Toast.LENGTH_SHORT).show();
     }
 
+    public static String getStatus(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("status", MODE_PRIVATE);
+        String restoredText = prefs.getString("status", null);
+
+        if (restoredText != null) {
+            String rider = prefs.getString("Rider", "No type defined");
+            String driver = prefs.getString("Driver", "No type defined");
+        }
+        return restoredText;
+    }
+
+
+    public static void setStatus(Context context, String status){
+        SharedPreferences.Editor editor = context.getSharedPreferences("status", MODE_PRIVATE).edit();
+        editor.putString("status", status);
+        editor.apply();
+    }
+
 
 
 

@@ -1,7 +1,9 @@
 package com.example.accelerometer;
 
 import android.animation.Animator;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -43,6 +45,10 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        SharedPreferences settings = getBaseContext().getSharedPreferences("status", Context.MODE_PRIVATE);
+        settings.edit().clear().apply();
+
         LoginButton=findViewById(R.id.loginButton);
         LoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
