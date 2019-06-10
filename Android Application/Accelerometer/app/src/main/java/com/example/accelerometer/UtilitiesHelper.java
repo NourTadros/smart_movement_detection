@@ -49,7 +49,7 @@ public class UtilitiesHelper {
 
 //function l toast 3ashan anadeeha 3alatool
     public static void showToast(Context c, String message){
-        Toast.makeText(c, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(c, message, Toast.LENGTH_SHORT).show();
     }
 
 
